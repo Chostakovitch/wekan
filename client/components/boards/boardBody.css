@@ -1,32 +1,7 @@
 .board-wrapper {
-  position: absolute;
-  left: 0;
-  right: 0;
-  top: 0;
-  bottom: 0;
-  overflow-x: hidden;
-  overflow-y: hidden;
-  width: 100%;
-  min-width: 100%;
-}
-
-/* When zoom is 50% or lower, ensure full width like content */
-.board-wrapper[style*="transform: scale(0.5)"] {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-}
-
-.board-wrapper[style*="transform: scale(0.4)"] {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-}
-
-.board-wrapper[style*="transform: scale(0.3)"] {
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
+  display: flex;
+  flex: 1;
+  overflow: auto;
 }
 .board-wrapper .board-canvas {
   position: absolute;

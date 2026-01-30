@@ -32,9 +32,6 @@ BlazeComponent.extendComponent({
     const currentBoard = Utils.getCurrentBoard();
     return currentBoard && currentBoard.getWatchLevel(Meteor.userId());
   },
-
-
-
   isStarred() {
     const boardId = Session.get('currentBoard');
     const user = ReactiveCache.getCurrentUser();
@@ -181,7 +178,7 @@ Template.boardHeaderBar.helpers({
     if (!sortBy) {
       return '🃏'; // Card icon when nothing is selected
     }
-    
+
     // Determine which sort option is active based on sortBy object
     if (sortBy.dueAt) {
       return '📅'; // Due date icon
@@ -190,7 +187,7 @@ Template.boardHeaderBar.helpers({
     } else if (sortBy.createdAt) {
       return sortBy.createdAt === 1 ? '⬆️' : '⬇️'; // Up/down arrow based on direction
     }
-    
+
     return '🃏'; // Default card icon
   },
 });

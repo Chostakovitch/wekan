@@ -608,15 +608,6 @@ Users.attachSchema(
       allowedValues: ['YYYY-MM-DD', 'DD-MM-YYYY', 'MM-DD-YYYY'],
       defaultValue: 'YYYY-MM-DD',
     },
-    'profile.zoomLevel': {
-      /**
-       * User-specified zoom level for board view (1.0 = 100%, 1.5 = 150%, etc.)
-       */
-      type: Number,
-      defaultValue: 1.0,
-      min: 0.5,
-      max: 3.0,
-    },
     'profile.mobileMode': {
       /**
        * User-specified mobile/desktop mode toggle
@@ -825,7 +816,6 @@ Users.safeFields = {
   'profile.fullname': 1,
   'profile.avatarUrl': 1,
   'profile.initials': 1,
-  'profile.zoomLevel': 1,
   'profile.mobileMode': 1,
   'profile.GreyIcons': 1,
   orgs: 1,
@@ -1900,14 +1890,6 @@ Users.mutations({
     };
   },
 
-  setZoomLevel(level) {
-    return {
-      $set: {
-        'profile.zoomLevel': level,
-      },
-    };
-  },
-
   setMobileMode(enabled) {
     return {
       $set: {
@@ -2200,11 +2182,6 @@ Meteor.methods({
       user.setListConstraintToStorage(boardId, listId, constraint);
     }
     // For non-logged-in users, the client-side code will handle localStorage
-  },
-  setZoomLevel(level) {
-    check(level, Number);
-    const user = ReactiveCache.getCurrentUser();
-    user.setZoomLevel(level);
   },
   setMobileMode(enabled) {
     check(enabled, Boolean);

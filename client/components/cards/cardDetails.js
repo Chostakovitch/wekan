@@ -424,18 +424,6 @@ BlazeComponent.extendComponent({
           // Switch global mode to desktop so the card appears as desktop popup
           Utils.setMobileMode(false);
         },
-        'click .js-card-zoom-in'(event) {
-          event.preventDefault();
-          const current = Utils.getCardZoom();
-          const newZoom = Math.min(3.0, current + 0.1);
-          Utils.setCardZoom(newZoom);
-        },
-        'click .js-card-zoom-out'(event) {
-          event.preventDefault();
-          const current = Utils.getCardZoom();
-          const newZoom = Math.max(0.5, current - 0.1);
-          Utils.setCardZoom(newZoom);
-        },
         'click .js-card-mobile-desktop-toggle'(event) {
           event.preventDefault();
           const currentMode = Utils.getMobileMode();
