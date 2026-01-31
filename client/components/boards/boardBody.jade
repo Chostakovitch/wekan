@@ -1,15 +1,11 @@
 template(name="board")
-  
   if isMigrating.get
     +migrationProgress
   else if isConverting.get
     +boardConversionProgress
   else if isBoardReady.get
     if currentBoard
-      if onlyShowCurrentCard
-        +cardDetails(currentCard)
-      else
-        +boardBody
+      +boardBody
     else
       //-- XXX We need a better error message in case the board has been archived
       +message(label="board-not-found")
@@ -58,10 +54,6 @@ template(name="boardBody")
               +swimlane(this)
           else
             +listsGroup(currentBoard)
-      //- Render multiple open cards in desktop mode
-      unless isMiniScreen
-        each openCards
-          +cardDetails(this cardIndex=@index)
       +sidebar
 
 template(name="calendarView")

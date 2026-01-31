@@ -159,13 +159,11 @@ FlowRouter.route('/b/:id/:slug', {
 FlowRouter.route('/b/:boardId/:slug/:cardId', {
   name: 'card',
   action(params) {
-    EscapeActions.executeUpTo('inlinedForm');
-
     Session.set('currentBoard', params.boardId);
     Session.set('currentCard', params.cardId);
     Session.set('popupCardId', null);
     Session.set('popupCardBoardId', null);
-    
+
     // In desktop mode, add to openCards array to support multiple cards
     const isMobile = Utils.getMobileMode();
     if (!isMobile) {

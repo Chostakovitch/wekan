@@ -192,22 +192,21 @@ BlazeComponent.extendComponent({
 
   clickOnMiniCard(evt) {
     if (MultiSelection.isActive() || evt.shiftKey) {
-      evt.stopImmediatePropagation();
-      evt.preventDefault();
       const methodName = evt.shiftKey ? 'toggleRange' : 'toggle';
       MultiSelection[methodName](this.currentData()._id);
-
       // If the card is already selected, we want to de-select it.
       // XXX We should probably modify the minicard href attribute instead of
       // overwriting the event in case the card is already selected.
-    } else if (Utils.isMiniScreen()) {
-      evt.preventDefault();
-      Session.set('popupCardId', this.currentData()._id);
-      this.cardDetailsPopup(evt);
     } else if (Session.equals('currentCard', this.currentData()._id)) {
-      evt.stopImmediatePropagation();
-      evt.preventDefault();
+      // We need to wait a little because router gets called first,
+      // we probably need a level of indirection
+      Meteor.setTimeout(() => {
+        Session.set('currentCard', null)
+      }, 50);
       Utils.goBoardId(Session.get('currentBoard'));
+    } else {
+      Session.set('currentCard', this.currentData()._id);
+
     }
   },
 
@@ -275,12 +274,6 @@ BlazeComponent.extendComponent({
     return user && user.isVerticalScrollbars();
   },
 
-  cardDetailsPopup(event) {
-    if (!Popup.isOpen()) {
-      Popup.open("cardDetails")(event);
-    }
-  },
-
   events() {
     return [
       {
@@ -288,6 +281,8 @@ BlazeComponent.extendComponent({
         'click .js-toggle-multi-selection': this.toggleMultiSelection,
         'click .open-minicard-composer': this.scrollToBottom,
         submit: this.addCard,
+        // #TODO remove in final MR if it works
+        'click .confirm': this.addCard
       },
     ];
   },
