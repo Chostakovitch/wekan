@@ -26,37 +26,11 @@
   box-shadow: 0 0 0 2px rgba(0, 124, 186, 0.2);
 }
 
-.assignee {
-  border-radius: 3px;
-  display: block;
-  position: relative;
-  float: left;
-  height: clamp(24px, 3.5vw, 36px);
-  width: clamp(24px, 3.5vw, 36px);
-  margin: .3vh;
-  cursor: pointer;
-  user-select: none;
-  z-index: 1;
-  text-decoration: none;
-  border-radius: 50%;
-}
-.assignee .avatar {
-  overflow: hidden;
-  border-radius: 50%;
-}
-.assignee .avatar.avatar-assignee-initials {
-  height: 70%;
-  width: 70%;
-  padding: 15%;
-  background-color: #dbdbdb;
-  color: #444;
-  position: absolute;
-}
-.assignee .avatar.avatar-image {
-  object-fit: cover;
-  object-position: center;
-  height: 100%;
-  width: 100%;
+.card-details-path {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: end;
+  margin-right: 1ch;
 }
 .assignee .assignee-presence-status {
   background-color: #b3b3b3;

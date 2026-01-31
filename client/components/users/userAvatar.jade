@@ -16,8 +16,8 @@ template(name="userAvatar")
             | ✏️
 
 template(name="userAvatarInitials")
-  svg.avatar.avatar-initials(viewBox="0 0 {{viewPortWidth}} 15")
-    text(x="50%" y="13" text-anchor="middle")= initials
+  .avatar-initials
+    = initials
 
 template(name="orgAvatar")
   a.member.orgOrTeamMember(class="js-member" title="{{orgData.orgDisplayName}}")
