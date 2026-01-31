@@ -1,25 +1,25 @@
 import { ReactiveCache } from '/imports/reactiveCache';
 import { TAPi18n } from '/imports/i18n';
 import { DatePicker } from '/client/lib/datepicker';
-import { 
-  formatDateTime, 
-  formatDate, 
-  formatTime, 
-  getISOWeek, 
-  isValidDate, 
-  isBefore, 
-  isAfter, 
-  isSame, 
-  add, 
-  subtract, 
-  startOf, 
-  endOf, 
-  format, 
-  parseDate, 
-  now, 
-  createDate, 
-  fromNow, 
-  calendar 
+import {
+  formatDateTime,
+  formatDate,
+  formatTime,
+  getISOWeek,
+  isValidDate,
+  isBefore,
+  isAfter,
+  isSame,
+  add,
+  subtract,
+  startOf,
+  endOf,
+  format,
+  parseDate,
+  now,
+  createDate,
+  fromNow,
+  calendar
 } from '/imports/lib/dateUtils';
 import Cards from '/models/cards';
 import Boards from '/models/boards';
@@ -33,6 +33,7 @@ import { UserAvatar } from '../users/userAvatar';
 import { DialogWithBoardSwimlaneList } from '/client/lib/dialogWithBoardSwimlaneList';
 import { handleFileUpload } from './attachments';
 import uploadProgressManager from '../../lib/uploadProgressManager';
+import PopupComponent from '../main/popup';
 
 const subManager = new SubsManager();
 const { calculateIndexData } = Utils;
@@ -323,37 +324,17 @@ BlazeComponent.extendComponent({
         },
         'click .js-card-bring-to-front'(event) {
           event.preventDefault();
-          const $card = $(event.target).closest('.card-details');
-          // Find the highest z-index among all cards
-          let maxZ = 100;
-          $('.card-details').each(function() {
-            const z = parseInt($(this).css('z-index')) || 100;
-            if (z > maxZ) maxZ = z;
-          });
-          // Set this card's z-index to be higher
-          $card.css('z-index', maxZ + 1);
+          PopupComponent.toFront(event);
         },
         'click .js-card-send-to-back'(event) {
           event.preventDefault();
-          const $card = $(event.target).closest('.card-details');
-          // Find the lowest z-index among all cards
-          let minZ = 100;
-          $('.card-details').each(function() {
-            const z = parseInt($(this).css('z-index')) || 100;
-            if (z < minZ) minZ = z;
-          });
-          // Set this card's z-index to be lower
-          $card.css('z-index', minZ - 1);
+          PopupComponent.toBack(event);
         },
-        'mousedown .js-card-drag-handle'(event) {
-          event.preventDefault();
-          const $card = $(event.target).closest('.card-details');
-          const startX = event.clientX;
-          const startY = event.clientY;
-          const startLeft = $card.offset().left;
-          const startTop = $card.offset().top;
-          
-          const onMouseMove = (e) => {
+        // a bit tricky but helpful to me
+        // see https://stackoverflow.com/a/67722507
+        [`pointerdown ${handleSelector}`]: (event) => {
+
+          const onPointerMove = (e) => {
             const deltaX = e.clientX - startX;
             const deltaY = e.clientY - startY;
             $card.css({
@@ -361,14 +342,29 @@ BlazeComponent.extendComponent({
               top: startTop + deltaY + 'px'
             });
           };
-          
-          const onMouseUp = () => {
-            $(document).off('mousemove', onMouseMove);
-            $(document).off('mouseup', onMouseUp);
+
+          const onPointerUp = (event) => {
+            event.stopPropagation();
+            $(document).off('pointermove', onPointerMove);
+            $(document).off('pointerup', onPointerUp);
           };
-          
-          $(document).on('mousemove', onMouseMove);
-          $(document).on('mouseup', onMouseUp);
+
+          // avoid triggering something on e.g. right click
+          if (Utils.shouldIgnorePointer(event)) {
+            onPointerUp(event);
+            return;
+          }
+
+          event.preventDefault();
+          event.stopPropagation();
+          const $card = $(event.target).closest('.card-details');
+          const startX = event.clientX;
+          const startY = event.clientY;
+          this.startLeft = $card.offset().left;
+          this.startTop = $card.offset().top;
+
+          $(document).on('pointermove', onPointerMove);
+          $(document).on('pointerup', onPointerUp);
         },
         'click .js-close-card-details'() {
           // Get board ID from either the card data or current board in session
