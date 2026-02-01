@@ -1,24 +1,24 @@
 import { TAPi18n } from '/imports/i18n';
 import { DatePicker } from '/client/lib/datepicker';
-import { 
-  formatDateTime, 
-  formatDate, 
+import {
+  formatDateTime,
+  formatDate,
   formatDateByUserPreference,
-  formatTime, 
-  getISOWeek, 
-  isValidDate, 
-  isBefore, 
-  isAfter, 
-  isSame, 
-  add, 
-  subtract, 
-  startOf, 
-  endOf, 
-  format, 
-  parseDate, 
-  now, 
-  createDate, 
-  fromNow, 
+  formatTime,
+  getISOWeek,
+  isValidDate,
+  isBefore,
+  isAfter,
+  isSame,
+  add,
+  subtract,
+  startOf,
+  endOf,
+  format,
+  parseDate,
+  now,
+  createDate,
+  fromNow,
   calendar,
   diff
 } from '/imports/lib/dateUtils';
@@ -169,7 +169,7 @@ class CardReceivedDate extends CardDate {
     const startAt = this.data().getStart();
     const theDate = this.date.get();
     const now = this.now.get();
-    
+
     // Received date logic: if received date is after start, due, or end dates, it's overdue
     if (
       (startAt && isAfter(theDate, startAt)) ||
@@ -213,7 +213,7 @@ class CardStartDate extends CardDate {
     const endAt = this.data().getEnd();
     const theDate = this.date.get();
     const now = this.now.get();
-    
+
     // Start date logic: if start date is after due or end dates, it's overdue
     if ((endAt && isAfter(theDate, endAt)) || (dueAt && isAfter(theDate, dueAt))) {
       classes += 'overdue';
@@ -256,7 +256,7 @@ class CardDueDate extends CardDate {
     const endAt = this.data().getEnd();
     const theDate = this.date.get();
     const now = this.now.get();
-    
+
     // If there's an end date and it's before the due date, task is completed early
     if (endAt && isBefore(endAt, theDate)) {
       classes += 'completed-early';
@@ -268,7 +268,7 @@ class CardDueDate extends CardDate {
     // Due date logic based on current time
     else {
       const daysDiff = diff(theDate, now, 'days');
-      
+
       if (daysDiff < 0) {
         // Due date is in the past - overdue
         classes += 'overdue';
@@ -280,7 +280,7 @@ class CardDueDate extends CardDate {
         classes += 'not-due';
       }
     }
-    
+
     return classes;
   }
 
@@ -312,7 +312,7 @@ class CardEndDate extends CardDate {
     let classes = 'end-date ';
     const dueAt = this.data().getDue();
     const theDate = this.date.get();
-    
+
     if (!dueAt) {
       // No due date set - just show as completed
       classes += 'completed';
@@ -397,7 +397,7 @@ CardCustomFieldDate.register('cardCustomFieldDate');
   template() {
     return 'minicardReceivedDate';
   }
-  
+
   showDate() {
     const currentUser = ReactiveCache.getCurrentUser();
     const dateFormat = currentUser ? currentUser.getDateFormat() : 'YYYY-MM-DD';
@@ -409,7 +409,7 @@ CardCustomFieldDate.register('cardCustomFieldDate');
   template() {
     return 'minicardStartDate';
   }
-  
+
   showDate() {
     const currentUser = ReactiveCache.getCurrentUser();
     const dateFormat = currentUser ? currentUser.getDateFormat() : 'YYYY-MM-DD';
@@ -421,7 +421,7 @@ CardCustomFieldDate.register('cardCustomFieldDate');
   template() {
     return 'minicardDueDate';
   }
-  
+
   showDate() {
     const currentUser = ReactiveCache.getCurrentUser();
     const dateFormat = currentUser ? currentUser.getDateFormat() : 'YYYY-MM-DD';
@@ -433,7 +433,7 @@ CardCustomFieldDate.register('cardCustomFieldDate');
   template() {
     return 'minicardEndDate';
   }
-  
+
   showDate() {
     const currentUser = ReactiveCache.getCurrentUser();
     const dateFormat = currentUser ? currentUser.getDateFormat() : 'YYYY-MM-DD';
@@ -445,7 +445,7 @@ CardCustomFieldDate.register('cardCustomFieldDate');
   template() {
     return 'minicardCustomFieldDate';
   }
-  
+
   showDate() {
     const currentUser = ReactiveCache.getCurrentUser();
     const dateFormat = currentUser ? currentUser.getDateFormat() : 'YYYY-MM-DD';
