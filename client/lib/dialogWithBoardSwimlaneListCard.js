@@ -2,16 +2,6 @@ import { ReactiveCache } from '/imports/reactiveCache';
 import { DialogWithBoardSwimlaneList } from '/client/lib/dialogWithBoardSwimlaneList';
 
 export class DialogWithBoardSwimlaneListCard extends DialogWithBoardSwimlaneList {
-  getDefaultOption(boardId) {
-    const ret = {
-      'boardId' : "",
-      'swimlaneId' : "",
-      'listId' : "",
-      'cardId': "",
-    }
-    return ret;
-  }
-
   /** returns if the card id was the last confirmed one
    * @param cardId check this card id
    * @return if the card id was the last confirmed one
