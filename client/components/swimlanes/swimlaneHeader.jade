@@ -9,30 +9,34 @@ template(name="swimlaneHeader")
         +swimlaneFixedHeader(this)
 
 template(name="swimlaneFixedHeader")
-  .swimlane-header(
-    class="{{#if currentUser.isBoardMember}}js-open-inlined-form is-editable{{/if}}")
-      if $eq title 'Card Templates'
-        | {{_ 'card-templates-swimlane'}}
-      else if $eq title 'List Templates'
-        | {{_ 'list-templates-swimlane'}}
-      else if $eq title 'Board Templates'
-        | {{_ 'board-templates-swimlane'}}
-      else if $eq title 'Default'
-        | {{_ 'defaultdefault'}}
-      else
-        +viewer
-          | {{isTitleDefault title}}
-  .swimlane-header-menu
+  .swimlane-header-menu-left
     if currentUser
       unless currentUser.isCommentOnly
         unless currentUser.isWorker
+          a.js-open-add-swimlane-menu.swimlane-header-plus-icon(title="{{_ 'add-swimlane'}}")
+            | ➕
           a.swimlane-collapse-indicator.js-collapse-swimlane.swimlane-header-collapse(title="{{_ 'collapse'}}")
             if collapseSwimlane
               | ▶
             else
               | 🔽
-          a.js-open-add-swimlane-menu.swimlane-header-plus-icon(title="{{_ 'add-swimlane'}}")
-            | ➕
+  .swimlane-header(
+      class="{{#if currentUser.isBoardMember}}js-open-inlined-form is-editable{{/if}}")
+        if $eq title 'Card Templates'
+          | {{_ 'card-templates-swimlane'}}
+        else if $eq title 'List Templates'
+          | {{_ 'list-templates-swimlane'}}
+        else if $eq title 'Board Templates'
+          | {{_ 'board-templates-swimlane'}}
+        else if $eq title 'Default'
+          | {{_ 'defaultdefault'}}
+        else
+          +viewer
+            | {{isTitleDefault title}}
+  .swimlane-header-menu-right
+    if currentUser
+      unless currentUser.isCommentOnly
+        unless currentUser.isWorker
           a.js-open-swimlane-menu(title="{{_ 'swimlaneActionPopup-title'}}")
             | ☰
           if isMiniScreen
@@ -51,13 +55,13 @@ template(name="swimlaneActionPopup")
   if currentUser
     unless currentUser.isCommentOnly
       ul.pop-over-list
-         if currentUser.isBoardAdmin
-           li: a.js-set-swimlane-color
-             | 🎨
-             | {{_ 'select-color'}}
-         li: a.js-set-swimlane-height
-           | ↕️
-           |  {{_ 'set-swimlane-height'}}
+        if currentUser.isBoardAdmin
+          li: a.js-set-swimlane-color
+            | 🎨
+            | {{_ 'select-color'}}
+        li: a.js-set-swimlane-height
+          | ↕️
+          |  {{_ 'set-swimlane-height'}}
       if currentUser.isBoardAdmin
         unless this.isTemplateContainer
           hr
@@ -99,7 +103,7 @@ template(name="setSwimlaneColorPopup")
             if(isSelected color)
               | ✅
     // Buttons aligned left too
-    .flush-left
+    .form-buttons
       button.primary.confirm.js-submit(style="margin-left:0") {{_ 'save'}}
       button.js-remove-color.negate.wide.right(style="margin-left:8px") {{_ 'unset-color'}}
 
