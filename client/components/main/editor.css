@@ -17,3 +17,15 @@
   top: 20px;
   right: 6px;
 }
+
+.editor-controls {
+  display: flex;
+  justify-content: end;
+  grid-area: editor-controls;
+  align-items: center;
+  align-self: start
+}
+
+.editor {
+  grid-area: editor;
+}
