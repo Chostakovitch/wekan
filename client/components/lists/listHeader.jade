@@ -9,34 +9,32 @@ template(name="listHeader")
         if currentList
           a.list-header-left-icon.js-unselect-list
             | ◀️
-      else
-        if collapsed
+        else
+          //- start by this on mobile to have cohesion with other views
+          a.list-header-menu-icon.js-select-list ▶️
+        .list-header-name-container
+          h2.list-header-name(
+            title="{{ moment modifiedAt 'LLL' }}"
+            class="{{#if currentUser.isBoardMember}}{{#unless currentUser.isCommentOnly}}{{#unless currentUser.isWorker}}js-open-inlined-form is-editable{{/unless}}{{/unless}}{{/if}}")
+            +viewer
+              = title
+            if wipLimit.enabled
+              |&nbsp;(
+              span(class="{{#if exceededWipLimit}}highlight{{/if}}") {{cards.length}}
+              |/#{wipLimit.value})
           if showCardsCountForList cards.length
-            br
-            span.cardCount {{cardsCount}}
-      if isMiniScreen
-        h2.list-header-name(
-          title="{{ moment modifiedAt 'LLL' }}"
-          class="{{#if currentUser.isBoardMember}}{{#unless currentUser.isCommentOnly}}{{#unless currentUser.isWorker}}js-open-inlined-form is-editable{{/unless}}{{/unless}}{{/if}}")
-          +viewer
-            = title
-          if wipLimit.enabled
-           |&nbsp;(
-           span(class="{{#if exceededWipLimit}}highlight{{/if}}") {{cards.length}}
-           |/#{wipLimit.value})
-        if showCardsCountForList cards.length
-          span.cardCount {{cardsCount}} {{cardsCountForListIsOne cards.length}}
-          if hasNumberFieldsSum
-            | &nbsp;
-            span.list-sum-badge(title="{{_ 'sum-of-number-fields'}}") ∑ {{numberFieldsSum}}
+            span.cardCount {{cardsCount}} {{cardsCountForListIsOne cards.length}}
+            if hasNumberFieldsSum
+              | &nbsp;
+              span.list-sum-badge(title="{{_ 'sum-of-number-fields'}}") ∑ {{numberFieldsSum}}
       else
-        div.list-header-collapse-container
-          a.list-collapse-indicator.js-collapse(title="{{_ 'collapse'}}")
-            if collapsed
-              | ▶
-            else
-              | 🔽
-          div(class="{{#if collapsed}}list-rotated{{/if}}")
+        a.list-collapse-indicator.js-collapse(title="{{_ 'collapse'}}")
+          if collapsed
+            | ▶
+          else
+            | 🔽
+        div.list-header-name-container
+          div(class="{{#if collapsed}}list-rotated{{/if}}").list-header-wrap
             h2.list-header-name(
               title="{{ moment modifiedAt 'LLL' }}"
               class="{{#if currentUser.isBoardMember}}{{#unless currentUser.isCommentOnly}}{{#unless currentUser.isWorker}}js-open-inlined-form is-editable{{/unless}}{{/unless}}{{/if}}")
@@ -46,41 +44,45 @@ template(name="listHeader")
                |&nbsp;(
                span(class="{{#if exceededWipLimit}}highlight{{/if}}") {{cards.length}}
                |/#{wipLimit.value})
-        unless collapsed
-          if showCardsCountForList cards.length
-            span.cardCount {{cardsCount}} {{cardsCountForListIsOne cards.length}}
-            if hasNumberFieldsSum
-              | &nbsp;
-              span.list-sum-badge(title="{{_ 'sum-of-number-fields'}}") ∑ {{numberFieldsSum}}
+          unless collapsed
+            if showCardsCountForList cards.length
+              span.cardCount {{cardsCount}} {{cardsCountForListIsOne cards.length}}
+              if hasNumberFieldsSum
+                | &nbsp;
+                span.list-sum-badge(title="{{_ 'sum-of-number-fields'}}") ∑ {{numberFieldsSum}}
       if isMiniScreen
         if currentList
           if isWatching
             i.list-header-watch-icon | 👁️
           div.list-header-menu
             unless currentUser.isCommentOnly
-              if canSeeAddCard
-                a.js-add-card.list-header-plus-top(title="{{_ 'add-card-to-top-of-list'}}") ➕
               a.js-open-list-menu(title="{{_ 'listActionPopup-title'}}") ☰
-        else
-          a.list-header-menu-icon.js-select-list ▶️
-          unless currentUser.isWorker
-            a.list-header-handle.handle.js-list-handle ↕️
-      else if currentUser.isBoardMember
-        if currentUser.isBoardMember
-          unless currentUser.isCommentOnly
-            unless currentUser.isWorker
-              a.list-header-handle.handle.js-list-handle ↕️
-        if isWatching
-          i.list-header-watch-icon | 👁️
-        unless collapsed
-          div.list-header-menu
-            unless currentUser.isCommentOnly
-              //if isBoardAdmin
-              //  a.fa.js-list-star.list-header-plus-top(class="fa-star{{#unless starred}}-o{{/unless}}")
               if canSeeAddCard
                 a.js-add-card.list-header-plus-top(title="{{_ 'add-card-to-top-of-list'}}") ➕
-
-                a.js-open-list-menu(title="{{_ 'listActionPopup-title'}}") ☰
+        else
+          unless currentUser.isWorker
+            if isMiniScren
+              a.list-header-handle.handle.js-list-handle ↕️
+      else if currentUser.isBoardMember
+        div.list-header-menu
+          if isWatching
+            i.list-header-watch-icon | 👁️
+          unless collapsed
+              unless currentUser.isCommentOnly
+                //if isBoardAdmin
+                //  a.fa.js-list-star.list-header-plus-top(class="fa-star{{#unless starred}}-o{{/unless}}")
+                if canSeeAddCard
+                  a.js-add-card.list-header-plus-top(title="{{_ 'add-card-to-top-of-list'}}") ➕
+                  a.js-open-list-menu(title="{{_ 'listActionPopup-title'}}") ☰
+          if currentUser.isBoardMember
+            unless currentUser.isCommentOnly
+              unless currentUser.isWorker
+                if isMiniScreen
+                  a.list-header-handle.handle.js-list-handle ↕️
+      unless isMiniScreen
+        if collapsed
+          if showCardsCountForList cards.length
+            span.cardCount {{cardsCount}}
 
 template(name="editListTitleForm")
   .list-composer
