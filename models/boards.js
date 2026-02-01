@@ -1614,19 +1614,19 @@ Boards.mutations({
     return { $set: { allowsDescriptionText } };
   },
 
-  setallowsDescriptionTextOnMinicard(allowsDescriptionTextOnMinicard) {
+  setAllowsDescriptionTextOnMinicard(allowsDescriptionTextOnMinicard) {
     return { $set: { allowsDescriptionTextOnMinicard } };
   },
 
-  setallowsCoverAttachmentOnMinicard(allowsCoverAttachmentOnMinicard) {
+  setAllowsCoverAttachmentOnMinicard(allowsCoverAttachmentOnMinicard) {
     return { $set: { allowsCoverAttachmentOnMinicard } };
   },
 
-  setallowsBadgeAttachmentOnMinicard(allowsBadgeAttachmentOnMinicard) {
+  setAllowsBadgeAttachmentOnMinicard(allowsBadgeAttachmentOnMinicard) {
     return { $set: { allowsBadgeAttachmentOnMinicard } };
   },
 
-  setallowsCardSortingByNumberOnMinicard(allowsCardSortingByNumberOnMinicard) {
+  setAllowsCardSortingByNumberOnMinicard(allowsCardSortingByNumberOnMinicard) {
     return { $set: { allowsCardSortingByNumberOnMinicard } };
   },
 
