@@ -466,3 +466,11 @@ Template.miniList.events({
     Session.set('currentList', listId);
   },
 });
+
+Template.miniList.helpers({
+  isCurrentList() {
+    const currentList = Utils.getCurrentList();
+    const list = Template.currentData();
+    return currentList && currentList._id == list._id;
+  },
+});
