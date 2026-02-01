@@ -36,26 +36,31 @@ template(name="checklistDetail")
       +editChecklistItemForm(checklist = checklist)
     else
       .checklist-title
-        span
-        if canModifyCard
-          a.checklist-details-menu.js-open-checklist-details-menu(title="{{_ 'checklistActionsPopup-title'}}")
-
-        if canModifyCard
-          h4.title.js-open-inlined-form.is-editable
-            if isTouchScreenOrShowDesktopDragHandles
-              span.checklist-handle(title="{{_ 'dragChecklist'}}") ↕️
+        h4.title
+          if canModifyCard
+            a.js-open-inlined-form.is-editable(title="{{_ 'moveChecklistPopup-title'}}")
+              +viewer
+                = checklist.title
+          else
             +viewer
               = checklist.title
-        else
-          h4.title
-            +viewer
-                = checklist.title
+        .checklist-controls
+          if canModifyCard
+            a.checklist-details-menu.js-open-checklist-details-menu(title="{{_ 'checklistActionsPopup-title'}}")
+              | ☰
+            if isMiniScreen
+              a.checklist-handle(title="{{_ 'dragChecklist'}}")
+                | ↕️
 
-    if $gt finishedPercent 0
-      .checklist-progress-bar-container
-        .checklist-progress-text {{finishedPercent}}%
-        .checklist-progress-bar
+    //- jumps where checking the first item is not comfortable;
+    //- so try to show it anytime. also, it helps to separate the checklists.
+    .checklist-progress-bar-container
+      .checklist-progress-text {{finishedPercent}}%
+      .checklist-progress-bar
+        if $gt finishedPercent 0
           .checklist-progress(style="width:{{finishedPercent}}%")
+        else
+          .checklist-progress(style="visibility:hidden")
     +checklistItems(checklist = checklist card = card)
 
 template(name="checklistDeletePopup")
@@ -64,8 +69,8 @@ template(name="checklistDeletePopup")
 
 template(name="addChecklistItemForm")
   a(title="{{_ 'copy-text-to-clipboard'}}")
-  span.copied-tooltip {{_ 'copied'}}
-  textarea.js-add-checklist-item(rows='1' autofocus)
+  span.copied-tooltip.copied-tooltip-hidden {{_ 'copied'}}
+  textarea.js-add-checklist-item(rows='1' )
   .edit-controls.clearfix
     button.primary.confirm.js-submit-add-checklist-item-form(type="submit") {{_ 'save'}}
     a.js-close-inlined-form(title="{{_ 'close-add-checklist-item'}}")
@@ -74,17 +79,13 @@ template(name="addChecklistItemForm")
       .material-toggle-switch(title="{{_ 'newlineBecomesNewChecklistItem'}}")
         input.toggle-switch(type="checkbox" id="toggleNewlineBecomesNewChecklistItem")
         label.toggle-label(for="toggleNewlineBecomesNewChecklistItem")
+      span.toggle-switch-desc
         | {{_ 'newLineNewItem'}}
-      if $eq position 'top'
-        .material-toggle-switch(title="{{_ 'newlineBecomesNewChecklistItemOriginOrder'}}")
-          input.toggle-switch(type="checkbox" id="toggleNewlineBecomesNewChecklistItemOriginOrder")
-          label.toggle-label(for="toggleNewlineBecomesNewChecklistItemOriginOrder")
-          | {{_ 'originOrder'}}
 
 template(name="editChecklistItemForm")
   a(title="{{_ 'copy-text-to-clipboard'}}")
-  span.copied-tooltip {{_ 'copied'}}
-  textarea.js-edit-checklist-item(rows='1' autofocus dir="auto")
+  span.copied-tooltip.copied-tooltip-hidden {{_ 'copied'}}
+  textarea.js-edit-checklist-item(rows='1' dir="auto")
     if $eq type 'item'
       = item.title
     else
@@ -101,32 +102,28 @@ template(name="editChecklistItemForm")
         | {{_ 'convertChecklistItemToCardPopup-title'}}
 
 template(name="checklistItems")
-  if checklist.items.length
-    if canModifyCard
-      +inlinedForm(autoclose=false classNames="js-add-checklist-item" checklist = checklist position="top")
-        +addChecklistItemForm(checklist=checklist showNewlineBecomesNewChecklistItem=true position="top")
-      else
-        a.add-checklist-item.js-open-inlined-form(title="{{_ 'add-checklist-item'}}")
-          | ➕
   .checklist-items.js-checklist-items
     each item in checklist.items
       +inlinedForm(classNames="js-edit-checklist-item" item = item checklist = checklist)
         +editChecklistItemForm(type = 'item' item = item checklist = checklist)
       else
         +checklistItemDetail(item = item checklist = checklist card = card)
-    if canModifyCard
-      +inlinedForm(autoclose=false classNames="js-add-checklist-item" checklist = checklist)
-        +addChecklistItemForm(checklist=checklist showNewlineBecomesNewChecklistItem=true)
-      else
-        a.add-checklist-item.js-open-inlined-form(title="{{_ 'add-checklist-item'}}")
-          | ➕
+  if canModifyCard
+    +inlinedForm(autoclose=false classNames="js-add-checklist-item" checklist = checklist)
+      +addChecklistItemForm(checklist=checklist showNewlineBecomesNewChecklistItem=true)
+    else
+      a.add-checklist-item.js-open-inlined-form(title="{{_ 'add-checklist-item'}}")
+        | ➕
+  +inlinedForm(autoclose=false classNames="js-add-checklist-item" checklist = checklist)
+    +addChecklistItemForm(checklist=checklist showNewlineBecomesNewChecklistItem=true position="top")
 
 template(name='checklistItemDetail')
   .js-checklist-item.checklist-item(class="{{#if item.isFinished }}is-checked{{#if checklist.hideCheckedChecklistItems}} invisible{{/if}}{{/if}}{{#if checklist.hideAllChecklistItems}} is-checked invisible{{/if}}"
     role="checkbox" aria-checked="{{#if item.isFinished }}true{{else}}false{{/if}}" tabindex="0")
     if canModifyCard
       span.check-box-unicode {{#if item.isFinished }}✅{{else}}⬜{{/if}}
-      span.checklistitem-handle(title="{{_ 'dragChecklistItem'}}") ↕️
+      unless isMiniScreen
+        span.checklistitem-handle(title="{{_ 'dragChecklistItem'}}") ↕️
       .item-title.js-open-inlined-form.is-editable(class="{{#if item.isFinished }}is-checked{{/if}}")
         +viewer
           = item.title
@@ -141,16 +138,16 @@ template(name="checklistActionsPopup")
     li
       a.js-delete-checklist.delete-checklist
         | 🗑️
-        | {{_ "delete"}} ...
+        | {{_ "delete"}}
       a.js-move-checklist.move-checklist
         | ➡️
-        | {{_ "moveChecklist"}} ...
+        | {{_ "moveChecklist"}}
       a.js-copy-checklist.copy-checklist
         | 📋
-        | {{_ "copyChecklist"}} ...
+        | {{_ "copyChecklist"}}
       a.js-hide-checked-checklist-items
         | 🙈
-        | {{_ "hideCheckedChecklistItems"}} ...
+        | {{_ "hideCheckedChecklistItems"}}
         .material-toggle-switch(title="{{_ 'hide-checked-items'}}")
           if checklist.hideCheckedChecklistItems
             input.toggle-switch(type="checkbox" id="toggleHideCheckedChecklistItems_{{checklist._id}}" checked="checked")
@@ -159,7 +156,7 @@ template(name="checklistActionsPopup")
           label.toggle-label(for="toggleHideCheckedChecklistItems_{{checklist._id}}")
       a.js-hide-all-checklist-items
         | 🚫
-        | {{_ "hideAllChecklistItems"}} ...
+        | {{_ "hideAllChecklistItems"}}
         .material-toggle-switch(title="{{_ 'hideAllChecklistItems'}}")
           if checklist.hideAllChecklistItems
             input.toggle-switch(type="checkbox" id="toggleHideAllChecklistItems_{{checklist._id}}" checked="checked")
