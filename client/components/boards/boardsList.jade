@@ -61,92 +61,93 @@ template(name="boardList")
       // Right boards grid
       .boards-right-grid
         .boards-path-header
-          .path-left
-            span.path-icon.emoji-icon {{currentMenuPath.icon}}
-            span.path-text {{currentMenuPath.text}}
-            if BoardMultiSelection.isActive
-              span.multiselection-hint
-                span.emoji-icon 📌
-                |  {{_ 'multi-selection-active'}}
-          .path-right
-            if canModifyBoards
-              if hasBoardsSelected
-                button.js-archive-selected-boards.board-header-btn
-                  span.emoji-icon 📦
-                  span {{_ 'archive-board'}}
-                button.js-duplicate-selected-boards.board-header-btn
-                  span.emoji-icon 📋
-                  span {{_ 'duplicate-board'}}
-              a.board-header-btn.js-multiselection-activate(
-                title="{{#if BoardMultiSelection.isActive}}{{_ 'multi-selection-on'}}{{else}}{{_ 'multi-selection'}}{{/if}}"
-                class="{{#if BoardMultiSelection.isActive}}emphasis{{/if}}")
-                span.emoji-icon ☑️
-              if BoardMultiSelection.isActive
-                a.board-header-btn-close.js-multiselection-reset(title="{{_ 'filter-clear'}}")
-                  span.emoji-icon ✖
+          if isMiniScreen
+            .path-top
+              +headerMultiSelection
+          .path-bottom
+            .path-left
+              span.path-icon.emoji-icon {{currentMenuPath.icon}}
+              span.path-text {{currentMenuPath.text}}
+            .path-right
+              unless isMiniScreen
+                +headerMultiSelection
+              if canModifyBoards
+                a.board-header-btn.js-multiselection-activate(
+                  title="{{#if BoardMultiSelection.isActive}}{{_ 'multi-selection-on'}}{{else}}{{_ 'multi-selection'}}{{/if}}"
+                  class="{{#if BoardMultiSelection.isActive}}emphasis{{/if}}")
+                  span.emoji-icon ☑️
+                if BoardMultiSelection.isActive
+                  a.board-header-btn-close.js-multiselection-reset(title="{{_ 'filter-clear'}}")
+                    span.emoji-icon ✖
         ul.board-list.clearfix.js-boards(class="{{#if isMiniScreen}}mobile-view{{/if}} {{#if BoardMultiSelection.isActive}}is-multiselection-active{{/if}}")
           li.js-add-board
             if isSelectedMenu 'templates'
               a.board-list-item.label(title="{{_ 'add-template-container'}}")
                 span.emoji-icon ➕
-                |  {{_ 'add-template-container'}}
+                  unless isMiniScreen
+                    | {{_ 'add-template-container'}}
             else
               a.board-list-item.label(title="{{_ 'add-board'}}")
                 span.emoji-icon ➕
-                |  {{_ 'add-board'}}
+                  unless isMiniScreen
+                    | {{_ 'add-board'}}
           each boards
             li.js-board(class="{{_id}} {{#if isStarred}}starred{{/if}} {{colorClass}} {{#if BoardMultiSelection.isSelected _id}}is-checked{{/if}}", draggable="true")
               if isInvited
                 .board-list-item
-                  if BoardMultiSelection.isActive
-                    .materialCheckBox.multi-selection-checkbox.js-toggle-board-multi-selection(
-                      class="{{#if BoardMultiSelection.isSelected _id}}is-checked{{/if}}")
-                  span.details
-                    span.board-list-item-name= title
+                  .board-card-header
                     span.js-star-board(
-                      class="{{#if isStarred}}is-star-active{{else}}is-not-star-active{{/if}}"
-                      title="{{_ 'star-board-title'}}")
-                      span.emoji-icon
-                        | {{#if isStarred}}⭐{{else}}☆{{/if}}
+                        class="{{#if isStarred}}is-star-active{{else}}is-not-star-active{{/if}}"
+                        title="{{_ 'star-board-title'}}")
+                        span.emoji-icon
+                          | {{#if isStarred}}⭐{{else}}☆{{/if}}
+                  .board-card-body
+                    span.details
+                      span.board-list-item-name= title
                     p.board-list-item-desc {{_ 'just-invited'}}
                     button.js-accept-invite.primary {{_ 'accept'}}
                     button.js-decline-invite {{_ 'decline'}}
+                  .board-card-footer
+                    .multi-selection-checkbox.js-toggle-board-multi-selection(
+                      class="{{#if BoardMultiSelection.isActive }}active{{/if}} {{#if BoardMultiSelection.isSelected _id}}is-checked{{/if}}")
               else
                 if $eq type "template-container"
-                  .template-container.board-list-item
-                    if BoardMultiSelection.isActive
-                      .materialCheckBox.multi-selection-checkbox.js-toggle-board-multi-selection(
-                        class="{{#if BoardMultiSelection.isSelected _id}}is-checked{{/if}}")
-                    span.board-handle(title="{{_ 'drag-board'}}")
-                      span.emoji-icon ↕️
-                    
-                    a.js-open-board(href="{{pathFor 'board' id=_id slug=slug}}")
+                  a.template-container.board-list-item.js-open-board(href="{{pathFor 'board' id=_id slug=slug}}")
+                    .board-card-header
+                      //- seems like there is no draggable UI component; is it intentionnal?
+                      //-span.board-handle(title="{{_ 'drag-board'}}")
+                      //-  span.emoji-icon ↕️
+                      span.js-star-board(
+                        class="{{#if isStarred}}is-star-active{{else}}is-not-star-active{{/if}}"
+                        title="{{_ 'star-board-title'}}")
+                        span.emoji-icon
+                          | {{#if isStarred}}⭐{{else}}☆{{/if}}
+                    .board-card-body
+
                       span.details
                         span.board-list-item-name(title="{{_ 'template-container'}}")
                           +viewer
                             = title
-                        p.board-list-item-desc
-                          +viewer
-                            = description
                         if hasSpentTimeCards
                           span.js-has-spenttime-cards(
                             class="{{#if hasOvertimeCards}}has-overtime-card-active{{else}}no-overtime-card-active{{/if}}"
                             title="{{#if hasOvertimeCards}}{{_ 'has-overtime-cards'}}{{else}}{{_ 'has-spenttime-cards'}}{{/if}}")
                             span.emoji-icon ⏱️
-                    span.js-star-board(
-                      class="{{#if isStarred}}is-star-active{{else}}is-not-star-active{{/if}}"
-                      title="{{_ 'star-board-title'}}")
-                      span.emoji-icon
-                        | {{#if isStarred}}⭐{{else}}☆{{/if}}
+                    .board-card-footer
+                      .multi-selection-checkbox.js-toggle-board-multi-selection(
+                        class="{{#if BoardMultiSelection.isActive }}active{{/if}} {{#if BoardMultiSelection.isSelected _id}}is-checked{{/if}}")
                 else
-                  .board-list-item
-                    if BoardMultiSelection.isActive
-                      .materialCheckBox.multi-selection-checkbox.js-toggle-board-multi-selection(
-                        class="{{#if BoardMultiSelection.isSelected _id}}is-checked{{/if}}")
-                    span.board-handle(title="{{_ 'drag-board'}}")
-                      span.emoji-icon ↕️
-                    
-                    a.js-open-board(href="{{pathFor 'board' id=_id slug=slug}}")
+                  a.board-list-item.js-open-board(href="{{pathFor 'board' id=_id slug=slug}}")
+                    .board-card-header
+                      //- seems like there is no draggable UI component; is it intentionnal?
+                      //-span.board-handle(title="{{_ 'drag-board'}}")
+                      //-  span.emoji-icon ↕️
+                      a.js-star-board(
+                        class="{{#if isStarred}}is-star-active{{else}}is-not-star-active{{/if}}"
+                        title="{{_ 'star-board-title'}}")
+                        span.emoji-icon
+                          | {{#if isStarred}}⭐{{else}}☆{{/if}}
+                    .board-card-body
                       span.details
                         span.board-list-item-name(title="{{_ 'board-drag-drop-reorder-or-click-open'}}")
                           +viewer
@@ -159,23 +160,18 @@ template(name="boardList")
                                   +userAvatar(userId=member noRemove=true)
                         unless currentSetting.hideCardCounterList
                           if allowsCardCounterList
-                            .minicard-lists.flex.flex-wrap
+                            .minicard-lists
                               each list in boardLists _id
                                 .item
                                   | {{ list }}
-                        p.board-list-item-desc
-                          +viewer
-                            = description
                         if hasSpentTimeCards
                           span.js-has-spenttime-cards(
                             class="{{#if hasOvertimeCards}}has-overtime-card-active{{else}}no-overtime-card-active{{/if}}"
                             title="{{#if hasOvertimeCards}}{{_ 'has-overtime-cards'}}{{else}}{{_ 'has-spenttime-cards'}}{{/if}}")
                             span.emoji-icon ⏱️
-                    a.js-star-board(
-                      class="{{#if isStarred}}is-star-active{{else}}is-not-star-active{{/if}}"
-                      title="{{_ 'star-board-title'}}")
-                      span.emoji-icon
-                        | {{#if isStarred}}⭐{{else}}☆{{/if}}
+                    .board-card-footer
+                      .multi-selection-checkbox.js-toggle-board-multi-selection(
+                        class="{{#if BoardMultiSelection.isActive }}active{{/if}} {{#if BoardMultiSelection.isSelected _id}}is-checked{{/if}}")
 
 template(name="boardListHeaderBar")
   h1 {{_ title }}
@@ -196,7 +192,7 @@ template(name="workspaceTree")
           .workspace-node-content
             span.workspace-drag-handle
               span.emoji-icon ↕️
-            
+
             a.js-select-workspace(data-id="{{id}}")
               span.workspace-icon
                 if icon
@@ -211,3 +207,19 @@ template(name="workspaceTree")
             a.js-add-subworkspace(data-id="{{id}}" title="{{_ 'allboards.add-subworkspace'}}") +
           if children
             +workspaceTree(nodes=children selectedWorkspaceId=selectedWorkspaceId)
+
+template(name="headerMultiSelection")
+  if BoardMultiSelection.isActive
+    if canModifyBoards
+      if hasBoardsSelected
+        button.js-archive-selected-boards.board-header-btn
+          span.emoji-icon 📦
+          span {{_ 'archive-board'}}
+        button.js-duplicate-selected-boards.board-header-btn
+          span.emoji-icon 📋
+          span {{_ 'duplicate-board'}}
+
+template(name="multiselectionHintPopup")
+  span.multiselection-hint
+    span.emoji-icon 📌
+      |  {{_ 'multi-selection-active'}}

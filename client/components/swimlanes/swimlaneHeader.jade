@@ -33,14 +33,11 @@ template(name="swimlaneFixedHeader")
               | 🔽
           a.js-open-add-swimlane-menu.swimlane-header-plus-icon(title="{{_ 'add-swimlane'}}")
             | ➕
-          unless isTouchScreen
-            a.swimlane-header-handle.handle.js-swimlane-header-handle
-              | ↕️
-          if isTouchScreen
-            a.swimlane-header-miniscreen-handle.handle.js-swimlane-header-handle
-              | ↕️
           a.js-open-swimlane-menu(title="{{_ 'swimlaneActionPopup-title'}}")
             | ☰
+          if isMiniScreen
+            a.swimlane-header-miniscreen-handle.handle.js-swimlane-header-handle
+              | ↕️
 
 template(name="editSwimlaneTitleForm")
   .list-composer
