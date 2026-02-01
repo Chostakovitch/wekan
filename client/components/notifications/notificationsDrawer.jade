@@ -5,9 +5,10 @@ template(name='notificationsDrawer')
         a.toggle-read {{_ 'filter-by-unread'}}
       else
         a.toggle-read {{_ 'view-all'}}
-      h5 {{_ 'notifications'}}
-        if($gt unreadNotifications 0)
-          |(#{unreadNotifications})
+      if($gt unreadNotifications 0)
+        |(#{unreadNotifications}) {{_ 'notifications'}}
+      else
+        |0 {{_ 'notifications'}}
       a.close ❌
     ul.notifications
       each transformedProfile.notifications
