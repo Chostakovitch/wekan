@@ -54,16 +54,7 @@ template(name="listHeader")
         if currentList
           if isWatching
             i.list-header-watch-icon | 👁️
-          div.list-header-menu
-            unless currentUser.isCommentOnly
-              a.js-open-list-menu(title="{{_ 'listActionPopup-title'}}") ☰
-              if canSeeAddCard
-                a.js-add-card.list-header-plus-top(title="{{_ 'add-card-to-top-of-list'}}") ➕
-        else
-          unless currentUser.isWorker
-            if isMiniScren
-              a.list-header-handle.handle.js-list-handle ↕️
-      else if currentUser.isBoardMember
+      if currentUser.isBoardMember
         div.list-header-menu
           if isWatching
             i.list-header-watch-icon | 👁️
