@@ -269,7 +269,7 @@ body:not(.mobile-mode) {
     font-weight: bold;
     font-size: 1.33em;
     margin: 0;
-
+    --overflow-lines: 3;
     & p {
       margin: 0;
     }
@@ -357,8 +357,14 @@ body:not(.mobile-mode) {
 }
 .card-details .card-details-header .card-details-title {
   font-weight: bold;
-  font-size: 1.33em;
+  font-size: 1.3em;
   padding: 0;
+}
+
+body.mobile-mode {
+  .card-details .card-details-header .card-details-title {
+    --overflow-lines: 2;
+  }
 }
 .card-details .card-details-header .linked-card-location {
   font-style: italic;
@@ -408,6 +414,9 @@ body:not(.mobile-mode) {
   gap: 1ch;
   h2 {
     margin: 0;
+  }
+  .subtask {
+    min-height: 1.5lh;
   }
 }
 .card-details .card-details-item-title {
