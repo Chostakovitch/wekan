@@ -641,6 +641,10 @@ template(name="boardMenuPopup")
             span.emoji-icon
               | ➡️📦
             | {{_ 'archive-board'}}
+  //- this popup is the only one to not open
+  //- with correct size; related to issue linked above ?
+  //- artificially add a bit a space
+  div.invisible-line
 
 template(name="exportBoard")
   ul.pop-over-list

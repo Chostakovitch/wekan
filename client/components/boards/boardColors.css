@@ -1384,7 +1384,6 @@ THEME - Relax
   color: #f00;
   background-color: #fff;
   font-weight: bold;
-  font-size: 11pt;
 }
 
 /* Transparent modern scrollbar - relax*/
@@ -2460,12 +2459,6 @@ THEME - Modern Dark
     }
   }
 
-  @media screen and (.board-color-moderndark .list-header .list-header-name {
-      float: left;
-    }
-
-  }
-
   .board-color-moderndark .list-header .list-header-plus-top {
     color: #a6a6a6;
   }
@@ -2512,7 +2505,6 @@ THEME - Modern Dark
     background-color: #444;
     color: #ccc;
     border-radius: 2px;
-    font-size: 0.95em;
     box-shadow: 0 4px 3px -3px rgba(0, 0, 0, 0.8);
     border-bottom: 1px solid #666;
   }
