@@ -341,6 +341,7 @@ Template.changeLanguagePopup.events({
       },
     });
     TAPi18n.setLanguage(this.tag);
+    Popup.close();
     event.preventDefault();
   },
 });
