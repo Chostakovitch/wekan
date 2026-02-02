@@ -1,4 +1,5 @@
 import { ReactiveCache } from '/imports/reactiveCache';
+import { Meteor } from "meteor/meteor";
 
 // Activities don't need a schema because they are always set from the a trusted
 // environment - the server - and there is no risk that a user change the logic
@@ -76,7 +77,9 @@ Activities.before.insert((userId, doc) => {
 
 Activities.after.insert((userId, doc) => {
   const activity = Activities._transform(doc);
-  RulesHelper.executeRules(activity);
+  if (Meteor.isServer) {
+    RulesHelper.executeRules(activity);
+  }
 });
 
 if (Meteor.isServer) {
