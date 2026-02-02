@@ -16,96 +16,115 @@ template(name="memberMenuPopup")
     with currentUser
       li
         a.js-toggle-grey-icons(href="#")
-          | 🎨
-          | {{_ 'grey-icons'}}
+          span
+            | 🎨
+            | {{_ 'grey-icons'}}
           if currentUser.profile
             if currentUser.profile.GreyIcons
               span(key="grey-icons-checkmark") ✅
       li
         a.js-my-cards(href="{{pathFor 'my-cards'}}")
-          | 📋
-          | {{_ 'my-cards'}}
+          span
+            | 📋
+            | {{_ 'my-cards'}}
       li
         a.js-due-cards(href="{{pathFor 'due-cards'}}")
-          | 📅
-          | {{_ 'dueCards-title'}}
+          span
+            | 📅
+            | {{_ 'dueCards-title'}}
       li
         a.js-global-search(href="{{pathFor 'global-search'}}")
-          | 🔍
-          | {{_ 'globalSearch-title'}}
+          span
+            | 🔍
+            | {{_ 'globalSearch-title'}}
       li
         a(href="{{pathFor 'home'}}")
-          | 🏠
-          | {{_ 'all-boards'}}
+          span
+            | 🏠
+            | {{_ 'all-boards'}}
       li
         a(href="{{pathFor 'public'}}")
-          | 🌐
-          | {{_ 'public'}}
+          span
+            | 🌐
+            | {{_ 'public'}}
       li
         a.board-header-btn.js-open-archived-board
-          | 📦
-          span {{_ 'archives'}}
+          span
+            | 📦
+            | {{_ 'archives'}}
       li
         a.js-notifications-drawer-toggle
-          | 🔔
-          | {{_ 'notifications'}}
+          span
+            | 🔔
+            | {{_ 'notifications'}}
       if currentSetting.customHelpLinkUrl
         li
           a(href="{{currentSetting.customHelpLinkUrl}}", title="{{_ 'help'}}", target="_blank", rel="noopener noreferrer")
-            | ❓
-            | {{_ 'help'}}
+            span
+              | ❓
+              | {{_ 'help'}}
       unless currentUser.isWorker
         ul.pop-over-list
           li
             a(href="{{pathFor 'board' id=templatesBoardId slug=templatesBoardSlug}}")
-              | 📋
-              | {{_ 'templates'}}
+              span
+                | 📋
+                | {{_ 'templates'}}
       if currentUser.isAdmin
         li
           a.js-go-setting(href="{{pathFor 'setting'}}")
-            | 🔒
-            | {{_ 'admin-panel'}}
+            span
+              | 🔒
+              | {{_ 'admin-panel'}}
       hr
       if isSameDomainNameSettingValue
         li
           a.js-invite-people
-            | ✉️
-            | {{_ 'invite-people'}}
+            span
+              | ✉️
+              | {{_ 'invite-people'}}
       if isNotOAuth2AuthenticationMethod
         li
           a.js-edit-profile
-            | 👤
-            | {{_ 'edit-profile'}}
+            span
+              | 👤
+              | {{_ 'edit-profile'}}
       li
         a.js-change-settings
-          | ⚙️
-          | {{_ 'change-settings'}}
+          span
+            | ⚙️
+            | {{_ 'change-settings'}}
       li
         a.js-change-avatar
-          | 🖼️
-          | {{_ 'edit-avatar'}}
+          span
+            | 🖼️
+            | {{_ 'edit-avatar'}}
       unless isSandstorm
         if isNotOAuth2AuthenticationMethod
           li
             a.js-change-password
-              | 🔑
-              | {{_ 'changePasswordPopup-title'}}
+              span
+                | 🔑
+                | {{_ 'changePasswordPopup-title'}}
       li
         a.js-change-language
-          | 🏁
-          | {{_ 'changeLanguagePopup-title'}}
+          span
+            | 🏁
+            | {{_ 'changeLanguagePopup-title'}}
       if isSupportPageEnabled
         li
           a(href="{{pathFor 'support'}}")
-            | ❓
-            | {{_ 'support'}}
+            span
+              | ❓
+              | {{_ 'support'}}
   unless isSandstorm
-    hr
     ul.pop-over-list
+      hr
       li
         a.js-logout
-          | 🚪
-          | {{_ 'log-out'}}
+          span
+            | 🚪
+            | {{_ 'log-out'}}
 
 template(name="invitePeoplePopup")
   ul#registration-setting.setting-detail
@@ -135,7 +154,7 @@ template(name="editProfilePopup")
   form
     label
       | {{_ 'fullname'}}
-      input.js-profile-fullname(type="text" value=profile.fullname autofocus)
+      input.js-profile-fullname(type="text" value=profile.fullname )
     label
       | {{_ 'username'}}
       span.error.hide.username-taken
