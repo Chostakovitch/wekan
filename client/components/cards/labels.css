@@ -49,6 +49,7 @@ form.edit-label {
 }
 .card-label p {
   margin: 0px;
+  --overflow-lines: 1;
 }
 .label-handle {
   cursor: move;

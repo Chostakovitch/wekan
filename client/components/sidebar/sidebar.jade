@@ -22,7 +22,8 @@ template(name="sidebar")
       //  i.fa.fa-navicon
       unless isDefaultView
         h2
-          a.js-back-home | ⬅️
+          a.js-back-home
+            | ⬅️
           = getViewTitle
       if isOpen
         +Template.dynamic(template=getViewTemplate)
@@ -161,7 +162,7 @@ template(name="boardChangeBackgroundImagePopup")
   form
     label
       | {{_ 'board-background-image-url'}}
-      input.js-board-background-image-url(type="text" value="{{backgroundImageURL}}" autofocus)
+      input.js-board-background-image-url(type="text" value="{{backgroundImageURL}}" )
     div.buttonsContainer
       input.primary.wide(type="submit" value="{{_ 'save'}}")
     br
@@ -575,8 +576,7 @@ template(name="boardMenuPopup")
     if currentUser.isBoardAdmin
       li
         a.js-open-rules-view(title="{{_ 'rules'}}")
-          span.emoji-icon
-            | ✨
+          | ✨
           | {{_ 'rules'}}
     if currentUser.isBoardAdmin
       li

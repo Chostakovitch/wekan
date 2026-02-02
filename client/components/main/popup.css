@@ -29,6 +29,8 @@
     flex-direction: column;
     width: auto;
     height: auto;
+    /* A default for "old" popups; could use a variable in the future ?*/
+    gap: 0.3lh;
   }
 }
 
@@ -42,7 +44,7 @@
 .pop-over input[type="password"],
 .pop-over input[type="file"] {
   display: flex;
-  flex: 1;
+  flex-shrink: 0;
 }
 .pop-over .sub-name {
   max-width: clamp(30vw, 500px, 80%);

@@ -1066,7 +1066,7 @@ Users.helpers({
     if (this._id) {
       return this.getSwimlaneHeight(boardId, swimlaneId);
     }
-    
+
     // For non-logged-in users, get from localStorage
     try {
       const stored = localStorage.getItem('wekan-swimlane-heights');
@@ -1079,7 +1079,7 @@ Users.helpers({
     } catch (e) {
       console.warn('Error reading swimlane heights from localStorage:', e);
     }
-    
+
     return -1;
   },
 
@@ -1088,17 +1088,17 @@ Users.helpers({
     if (this._id) {
       return this.setSwimlaneHeight(boardId, swimlaneId, height);
     }
-    
+
     // For non-logged-in users, save to localStorage
     try {
       const stored = localStorage.getItem('wekan-swimlane-heights');
       let heights = stored ? JSON.parse(stored) : {};
-      
+
       if (!heights[boardId]) {
         heights[boardId] = {};
       }
       heights[boardId][swimlaneId] = height;
-      
+
       localStorage.setItem('wekan-swimlane-heights', JSON.stringify(heights));
       return true;
     } catch (e) {
@@ -1280,7 +1280,7 @@ Users.helpers({
     if (this._id) {
       return this.getListWidth(boardId, listId);
     }
-    
+
     // For non-logged-in users, get from validated localStorage
     if (typeof localStorage !== 'undefined' && typeof getValidatedLocalStorageData === 'function') {
       try {
@@ -1296,7 +1296,7 @@ Users.helpers({
         console.warn('Error reading list widths from localStorage:', e);
       }
     }
-    
+
     return 270; // Return default width
   },
 
@@ -1305,23 +1305,23 @@ Users.helpers({
     if (this._id) {
       return this.setListWidth(boardId, listId, width);
     }
-    
+
     // Validate width before storing
     if (!validators.isValidNumber(width, 100, 1000)) {
       console.warn('Invalid list width:', width);
       return false;
     }
-    
+
     // For non-logged-in users, save to validated localStorage
     if (typeof localStorage !== 'undefined' && typeof setValidatedLocalStorageData === 'function') {
       try {
         const widths = getValidatedLocalStorageData('wekan-list-widths', validators.listWidths);
-        
+
         if (!widths[boardId]) {
           widths[boardId] = {};
         }
         widths[boardId][listId] = width;
-        
+
         return setValidatedLocalStorageData('wekan-list-widths', widths, validators.listWidths);
       } catch (e) {
         console.warn('Error saving list width to localStorage:', e);
@@ -1336,7 +1336,7 @@ Users.helpers({
     if (this._id) {
       return this.getListConstraint(boardId, listId);
     }
-    
+
     // For non-logged-in users, get from localStorage
     try {
       const stored = localStorage.getItem('wekan-list-constraints');
@@ -1349,7 +1349,7 @@ Users.helpers({
     } catch (e) {
       console.warn('Error reading list constraints from localStorage:', e);
     }
-    
+
     return 550; // Return default constraint instead of -1
   },
 
@@ -1358,17 +1358,17 @@ Users.helpers({
     if (this._id) {
       return this.setListConstraint(boardId, listId, constraint);
     }
-    
+
     // For non-logged-in users, save to localStorage
     try {
       const stored = localStorage.getItem('wekan-list-constraints');
       let constraints = stored ? JSON.parse(stored) : {};
-      
+
       if (!constraints[boardId]) {
         constraints[boardId] = {};
       }
       constraints[boardId][listId] = constraint;
-      
+
       localStorage.setItem('wekan-list-constraints', JSON.stringify(constraints));
       return true;
     } catch (e) {
@@ -1382,7 +1382,7 @@ Users.helpers({
     if (this._id) {
       return this.getSwimlaneHeight(boardId, swimlaneId);
     }
-    
+
     // For non-logged-in users, get from localStorage
     try {
       const stored = localStorage.getItem('wekan-swimlane-heights');
@@ -1395,7 +1395,7 @@ Users.helpers({
     } catch (e) {
       console.warn('Error reading swimlane heights from localStorage:', e);
     }
-    
+
     return -1; // Return -1 if not found
   },
 
@@ -1404,17 +1404,17 @@ Users.helpers({
     if (this._id) {
       return this.setSwimlaneHeight(boardId, swimlaneId, height);
     }
-    
+
     // For non-logged-in users, save to localStorage
     try {
       const stored = localStorage.getItem('wekan-swimlane-heights');
       let heights = stored ? JSON.parse(stored) : {};
-      
+
       if (!heights[boardId]) {
         heights[boardId] = {};
       }
       heights[boardId][swimlaneId] = height;
-      
+
       localStorage.setItem('wekan-swimlane-heights', JSON.stringify(heights));
       return true;
     } catch (e) {
@@ -1965,16 +1965,16 @@ Meteor.methods({
     if (!user) {
       throw new Meteor.Error('user-not-found', 'User not found');
     }
-    
+
     // Check if board is already starred
     const starredBoards = (user.profile && user.profile.starredBoards) || [];
     const isStarred = starredBoards.includes(boardId);
-    
+
     // Build update object
-    const updateObject = isStarred 
+    const updateObject = isStarred
       ? { $pull: { 'profile.starredBoards': boardId } }
       : { $addToSet: { 'profile.starredBoards': boardId } };
-    
+
     Users.update(this.userId, updateObject);
   },
   toggleGreyIcons(value) {
@@ -2041,11 +2041,11 @@ Meteor.methods({
     check(boardId, String);
     check(spaceId, String);
     if (!this.userId) throw new Meteor.Error('not-logged-in');
-    
+
     const user = Users.findOne(this.userId);
     const assignments = user.profile?.boardWorkspaceAssignments || {};
     assignments[boardId] = spaceId;
-    
+
     Users.update(this.userId, {
       $set: { 'profile.boardWorkspaceAssignments': assignments }
     });
@@ -2055,11 +2055,11 @@ Meteor.methods({
   unassignBoardFromWorkspace(boardId) {
     check(boardId, String);
     if (!this.userId) throw new Meteor.Error('not-logged-in');
-    
+
     const user = Users.findOne(this.userId);
     const assignments = user.profile?.boardWorkspaceAssignments || {};
     delete assignments[boardId];
-    
+
     Users.update(this.userId, {
       $set: { 'profile.boardWorkspaceAssignments': assignments }
     });
@@ -3076,7 +3076,7 @@ if (Meteor.isServer) {
       // get all boards where the user is member of
       let boards = ReactiveCache.getBoards(
         {
-          type: 'board',
+          type: {$in: ['board', 'template-container']},
           'members.userId': req.userId,
         },
         {

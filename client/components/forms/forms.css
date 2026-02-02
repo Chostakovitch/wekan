@@ -54,16 +54,6 @@ input[type="password"],
 input[type="email"] {
   transition: background 85ms ease-in, border-color 85ms ease-in;
 }
-input[type="text"].inline-input,
-input[type="password"].inline-input,
-input[type="email"].inline-input {
-  background: none;
-  border: 0;
-  margin: 0;
-  padding: 0.3vh;
-  min-height: 0;
-  height: 2.5vh;
-}
 input[type="text"].full-line,
 input[type="password"].full-line,
 input[type="email"].full-line {
