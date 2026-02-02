@@ -131,6 +131,7 @@ FlowRouter.route('/b/:id/:slug', {
   action(params) {
     const currentBoard = params.id;
     const previousBoard = Session.get('currentBoard');
+    const currentCard = Session.get('currentCard');
     Session.set('currentBoard', currentBoard);
     Session.set('currentCard', null);
     Session.set('popupCardId', null);
@@ -142,8 +143,9 @@ FlowRouter.route('/b/:id/:slug', {
       Filter.reset();
       Session.set('sortBy', '');
       EscapeActions.executeAll();
-    } else {
-      EscapeActions.executeUpTo('popup-close');
+    }
+    else {
+      Session.set('currentCard', currentCard);
     }
 
     Utils.manageCustomUI();
