@@ -63,6 +63,7 @@
   text-overflow: ellipsis;
   white-space: nowrap;
   font-size: 1.2em;
+  line-height: 2em;
   flex: 1;
   cursor: grab !important;
 }
@@ -108,48 +109,6 @@
 /* Allow dynamic max-height to override default constraint for content-container */
 .pop-over[style*="max-height"] .content-container {
   max-height: inherit;
-}
-
-/* Fix overflow in the Member Settings (member menu) popup:
-   the popup itself gets a max-height inline style, but the header consumes space.
-   Make the header overlay the scrollable area so the list can't spill out. */
-.pop-over[data-popup="memberMenuPopup"] {
-  overflow: hidden;
-}
-.pop-over[data-popup="memberMenuPopup"] > .header {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  margin-bottom: 0;
-  z-index: 1;
-}
-.pop-over[data-popup="memberMenuPopup"] > .content-wrapper {
-  padding-top: calc(4.5vh + 1vh);
-  box-sizing: border-box;
-}
-
-/* Admin edit popups: use full height */
-.pop-over[data-popup="editUserPopup"],
-.pop-over[data-popup="editOrgPopup"],
-.pop-over[data-popup="editTeamPopup"] {
-  height: calc(100vh - 20px) !important;
-  max-height: calc(100vh - 20px) !important;
-}
-
-.pop-over[data-popup="editUserPopup"] .content-wrapper,
-.pop-over[data-popup="editOrgPopup"] .content-wrapper,
-.pop-over[data-popup="editTeamPopup"] .content-wrapper {
-  max-height: calc(100vh - 80px) !important; /* Subtract header height */
-  height: calc(100vh - 80px) !important;
-  overflow-y: auto !important;
-}
-
-.pop-over[data-popup="editUserPopup"] .content-container,
-.pop-over[data-popup="editOrgPopup"] .content-container,
-.pop-over[data-popup="editTeamPopup"] .content-container {
-  max-height: calc(100vh - 80px) !important; /* Subtract header height */
-  height: calc(100vh - 80px) !important;
 }
 
 .pop-over .popup-drag-handle {

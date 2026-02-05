@@ -1,16 +1,18 @@
 .card-details-item-date-format .card-details-item-title {
   font-weight: bold;
   color: #333;
+  letter-spacing: 0.03em;
 }
 
 .card-details-item-date-format .js-date-format-selector {
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 5px;
   background-color: #fff;
   cursor: pointer;
   width: 100%;
   display: flex;
   flex: 1;
+  transition: border-color 0.15s, box-shadow 0.15s;
 }
 
 .card-details-item-date-format .js-date-format-selector:focus {
@@ -85,6 +87,7 @@
   flex-direction: column;
   align-items: center;
   justify-items: end;
+  transition: box-shadow 0.12s;
 }
 
 .copied-tooltip {
@@ -92,6 +95,7 @@
   background-color: rgba(0,0,0,0.875);
   color: #fff;
   border-radius: 0.7vw;
+  font-size: 0.98em;
 }
 
 .copied-tooltip-visible {
@@ -112,11 +116,11 @@
   overflow-y: auto;
   overflow-x: hidden;
   background: #f7f7f7;
-  border-radius: bottom 0.4vw;
+  border-radius: 0 0 0.4vw 0.4vw;
   z-index: 100;
   animation: flexGrowIn 0.1s;
   box-shadow: 0 0 0.9vh 0 #b3b3b3;
-  transition: flex-basis 0.1s;
+  transition: flex-basis 0.1s, box-shadow 0.15s;
   box-sizing: border-box;
   &:not(.collapsed) {
     min-height: 20lh;
@@ -150,7 +154,7 @@
 }
 /* Collapsed card state - hide content and set height to title row only */
 .card-details.collapsed .card-details-canvas > *:not(.card-details-header) {
-  display: none;
+  display: none !important;
 }
 .card-details .mCustomScrollBox {
   padding-left: 0;
@@ -231,6 +235,7 @@
   user-select: none;
   vertical-align: middle;
   line-height: 1.2;
+  transition: color 0.13s;
 }
 .card-details .card-details-header .close-card-details-mobile-web,
 .card-details .card-details-header .card-mobile-desktop-toggle {
@@ -365,6 +370,7 @@ body.mobile-mode {
   .card-details .card-details-header .card-details-title {
     --overflow-lines: 2;
   }
+  letter-spacing: 0.01em;
 }
 .card-details .card-details-header .linked-card-location {
   font-style: italic;
@@ -382,6 +388,7 @@ body.mobile-mode {
 }
 .card-details .card-description textarea {
   min-height: 2lh;
+  resize: vertical;
 }
 .card-details {
   .card-details-items, .card-details-item {
@@ -600,7 +607,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
   }
 }
 .vote-title .js-edit-date {
-  align-self: baseline;
+  align-self: flex-start;
 }
 .vote-result {
   display: flex;
@@ -618,28 +625,32 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
 .poker-title {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 .poker-title .js-edit-date {
-  align-self: baseline;
+  align-self: flex-start;
 }
 .poker-result {
   display: flex;
-  flex-flow: row wrap;
+  flex-wrap: wrap;
+  gap: 7px;
 }
 .js-show-positive-poker-votes {
   cursor: pointer;
 }
 .poker-deck {
   display: grid;
-  flex-direction: column;
+  grid-auto-flow: row;
   text-align: center;
+  gap: 6px;
 }
 .poker-card-result {
-  width: 32px;
+  width: 34px;
   font-size: 1em;
   font-weight: bold;
-  padding: 4px 2px 4px 2px;
+  padding: 4px 2px;
   cursor: default;
+  border-radius: 3px;
 }
 .winner {
   font-weight: bold;
@@ -650,6 +661,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
 }
 .responsive-table {
   overflow-x: auto;
+  width: 100%;
 }
 .poker-table {
   display: table;
@@ -723,6 +735,7 @@ body.mobile-mode .card-details .card-details-header .close-card-details-mobile-w
   text-align: center;
   position: relative;
   cursor: pointer;
+  transition: box-shadow 0.12s;
 }
 .poker-card .inner {
   display: table-cell;

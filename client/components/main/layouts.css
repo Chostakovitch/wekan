@@ -492,7 +492,7 @@ a:not(.disabled).is-active i.fa {
   fitting the available space and cutting after N lines, whatever
   is the text's length */
   min-width: 0;
-  &:not(:has(time)), p {
+  :not(:has(time)), p {
     margin: 0;
     padding: 0;
     text-overflow: ellipsis;

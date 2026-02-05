@@ -29,6 +29,9 @@ template(name="header")
                   a(href="{{pathFor 'board' id=_id slug=slug}}")
                     +viewer
                       = title
+              else
+                li.current.empty(title="{{_ 'quick-access-description'}}")
+                | {{_ 'quick-access-description'}}
 
         else
           ul.header-quick-access-list

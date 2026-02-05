@@ -241,22 +241,14 @@ body.mobile-mode {
   color: #fff;
 }
 
-/* Webkit scrollbar styling for better UX */
+/* Hide scrollbar completely */
 #header-quick-access ul.header-quick-access-list::-webkit-scrollbar {
-  height: 4px;
+  display: none;
 }
 
-#header-quick-access ul.header-quick-access-list::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#header-quick-access ul.header-quick-access-list::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.3);
-  border-radius: 2px;
-}
-
-#header-quick-access ul.header-quick-access-list::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.5);
+#header-quick-access ul.header-quick-access-list {
+  -ms-overflow-style: none; /* IE and Edge */
+  scrollbar-width: none; /* Firefox */
 }
 #header-quick-access ul.header-quick-access-list li {
   display: inline-block; /* Keep inline-block for proper spacing */

@@ -24,6 +24,28 @@ Those are fixed at WeKan 8.07 where database directory is back to /var/snap/weka
 
 WeKan 8.00-8.24 used Colorful Unicode Emoji Icons, versions before and after use mostly Font Awesome 4.7 icons.
 
+# v8.28 2026-02-05 WeKan ® release
+
+This release adds the following updates:
+
+- [Bump docker/login-action from 3.6.0 to 3.7.0](https://github.com/wekan/wekan/pull/6122).
+  Thanks to dependabot.
+- [Updated meteor-node-stubs](https://github.com/wekan/wekan/commit/6c2e2f271d6343b347224430a4eedfe54db2d838).
+  Thanks to Meteor developers.
+
+and fixes the following bugs:
+
+- [Fixed text truncation at quick-access board link bar](https://github.com/wekan/wekan/pull/6121).
+  Thanks to KhaoulaMaleh.
+- [Improved cardDetails.css for better UI](https://github.com/wekan/wekan/pull/6124).
+  Thanks to AymenHassini19.
+- [Fixed Jade syntax at header](https://github.com/wekan/wekan/commit/c31758960f5372e88f47e8d081404294751284c8).
+  Thanks to xet7.
+- [Await async setDone before closing popup in copy/move dialogs](https://github.com/wekan/wekan/pull/6126).
+  Thanks to harryadel.
+
+Thanks to above GitHub users for their contributions and translators for their translations.
+
 # v8.27 2026-01-31 WeKan ® release
 
 This release adds the following updates:
